@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-gray-700 text-center mb-6">Daftar</h1>
+    <form id="registerForm" class="space-y-4">
+        <div class="relative" id="nameContainer">
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Nama Lengkap" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            >
+            <i class='bx bxs-user-detail absolute top-3 right-3 text-gray-500'></i>
+            <span class="text-red-500 text-sm hidden" id="nameError">Isi kolom ini!</span>
+        </div>
+        <div class="relative" id="emailContainer">
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Email" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            >
+            <i class='bx bxs-envelope absolute top-3 right-3 text-gray-500'></i>
+            <span class="text-red-500 text-sm hidden" id="emailError">Isi kolom ini!</span>
+        </div>
+        <div class="relative" id="passwordContainer">
+            <input 
+                type="password" 
+                name="password" 
+                id="registerPassword" 
+                placeholder="Password" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            >
+            <span 
+                class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500" 
+                onclick="toggleRegisterPassword()"
+            >👁️</span>
+            <span class="text-red-500 text-sm hidden" id="passwordError">Isi kolom ini!</span>
+        </div>
+        <button 
+            type="button" 
+            onclick="handleRegister()"
+            class="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 focus:ring-2 focus:ring-teal-400 focus:outline-none"
+        >
+            Daftar
+        </button>
+        <div class="text-center text-sm text-gray-500 mt-4">
+            Sudah punya akun? <a href="/Register/register.html" class="text-teal-500 hover:underline">Masuk</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleRegisterPassword() {
+        const input = document.getElementById('registerPassword');
+        input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function handleRegister() {
+        const form = document.getElementById('registerForm');
+        const formData = new FormData(form);
+
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const password = formData.get('password');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        let isValid = true;
+
+        if (!name) {
+            nameError.classList.remove('hidden');
+            isValid = false;
+        } else {
+            nameError.classList.add('hidden');
+        }
+
+        if (!email) {
+            emailError.classList.remove('hidden');
+            isValid = false;
+        } else {
+            emailError.classList.add('hidden');
+        }
+
+        if (!password) {
+            passwordError.classList.remove('hidden');
+            isValid = false;
+        } else {
+            passwordError.classList.add('hidden');
+        }
+
+        if (isValid) {
+            // Save data to localStorage
+            localStorage.setItem('registeredUsername', email);
+            localStorage.setItem('registeredPassword', password);
+            alert('Registrasi berhasil! Silakan login menggunakan email dan password Anda.');
+            window.location.href = '/Register/login.html';
+        }
+    }
+</script>
+
+</body>
+</html>

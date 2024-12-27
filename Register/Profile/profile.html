@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="/auth.js"></script>
+</head>
+<body onload="loadProfile()" class="bg-gray-100 min-h-screen flex flex-col items-center">
+
+    <!-- Navbar -->
+    <header class="w-full bg-teal-500 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold">Profil Pengguna</h1>
+        <button onclick="logout()" class="bg-teal-700 px-4 py-2 rounded-lg hover:bg-teal-800">
+            Logout
+        </button>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="bg-white shadow-lg rounded-lg mt-8 p-6 w-full max-w-lg">
+        <div id="profileContainer" class="space-y-6 text-center">
+            <!-- Content dynamically updated via JavaScript -->
+        </div>
+    </section>
+
+    <script>
+        function loadProfile() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const profileContainer = document.getElementById('profileContainer');
+
+            if (!isLoggedIn) {
+                alert('Anda harus login terlebih dahulu untuk mengakses halaman profil.');
+                window.location.href = '/Register/login.html';
+                return;
+            }
+
+            // Ambil data dari localStorage
+            const username = localStorage.getItem('registeredUsername');
+            const name = localStorage.getItem('registeredName') || 'Nama Belum Diisi';
+            const email = username || 'Email Belum Diisi';
+
+            // Tampilkan profil
+            profileContainer.innerHTML = `
+                <div class="flex justify-center">
+                    <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-full w-32 h-32 shadow-md">
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-700">${name}</h2>
+                    <p class="text-gray-500">${email}</p>
+                </div>
+                <button onclick="editProfile()" class="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 focus:ring-2 focus:ring-teal-400 focus:outline-none">
+                    Edit Profil
+                </button>
+            `;
+        }
+
+        function editProfile() {
+            const name = prompt('Masukkan nama baru:');
+            if (name) {
+                localStorage.setItem('registeredName', name);
+                alert('Profil berhasil diperbarui.');
+                loadProfile(); // Refresh profil
+            }
+        }
+    </script>
+</body>
+</html>
